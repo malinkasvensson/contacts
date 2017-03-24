@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="sv">
+	<head>
+		<title>Contacts</title>
+		<meta charset="utf-8">
+	    <meta name="description" content="Demo project">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<div data-ng-app="myAdressBook" data-ng-controller="dataCtrl" class="containerForBothViews">
+		<div class="container-fluid listView" data-ng-show="listView">
+		<div class="row">
+		    <div class="col-sm-12">    
+			    <h1 class="align-middle">Contacts</h1>
+			    <img src="img/bluebook.png" class="bookIcon align-middle img-responsive" alt="address book"></img>
+		    </div> <!-- col -->  
+		</div> <!-- row --> 
+
+		<h2 class="text-center hover sortH2"><span class="text-uppercase">Sort by: </span>&nbsp;&nbsp;&nbsp;<span ng-click="orderBy('name.first')">First name </span>&nbsp; |&nbsp; <span ng-click="orderBy('name.last')">Last name </span>&nbsp; |&nbsp; <span ng-click="orderBy('location.city')">City </span>&nbsp; | &nbsp;<span ng-click="orderBy('ocation.state')">State </span></h2>
+
+			 <form class="search hover">
+			    <div class="form-group">
+			      <div class="input-group">
+			        <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+			        <input type="text" class="form-control hover" placeholder="Search..." ng-model="search">
+			      </div>      
+			    </div>
+			  </form>
+		     
+			<div class="row listRow hover" ng-repeat="user in users | orderBy:thisOrderBy | filter : search">
+				<div  data-ng-click="toggle(); getUserById(user, user.id.value)">
+				   <div class="col-xs-2 col-sm-1 col-xxs smallView"> 
+				   		<i class="material-icons text-center" style="font-size:50px">person</i>			
+				   </div> <!-- col -->
+				  <div class="col-xs-3 col-sm-2 col-md-2 col-lg-1 col-xxs smallView"> 
+				  	 	<img src="{{ user.picture.medium }}" class="img-thumbnail img-responsive" alt="user {{ user.name.first }} {{ user.name.last }}"></img>  
+				  </div> <!-- col -->
+				  <div class="col-xs-7 col-sm-9 col-md-9 col-lg-10 col-xxs listItem"> 
+				  	 	<p class="text-capitalize">{{ user.name.title}} {{ user.name.first}} {{user.name.last }}</p>
+				  	 	<p class="text-capitalize">{{ user.location.city}}, {{ user.location.state}}</p>       
+				  </div> <!-- col -->  
+				</div> <!-- data-ng-click="toggle(); fetchInfoById(user.dob)" -->
+			</div> <!-- row -->
+	
+		</div><!-- container-fluid listView-->
+
+		<div class="container-fluid detailedView" data-ng-hide="detailedView">
+			  <div class="row firstRow">
+				    <div class="col-sm-12">    
+					    <h1 class="align-middle"></h1>
+					    <img src="img/bluebook.png" class="bookIcon align-middle img-responsive" alt="address book"></img>   
+				    </div> <!-- col -->  
+				</div> <!-- row --> 
+
+			<div class="row secondRow">
+				<div  data-ng-click="toggle();">
+				  <div class="col-sm-12"> 
+				  	<div class="wrapper">
+				  		<img src="img/bluebookSmall.png" class="bookIconSmall img-responsive" alt="small address book"></img>
+				  	 	<img class="img-circle oneUserImg img-responsive center-block" src="{{ oneUser.picture.large }}" alt="user {{ oneUser.name.first }} {{ oneUser.name.last }}"></img>
+                
+				  	 	<table class="table userTable">
+						    <tbody>
+							      <tr>
+								        <td><i class="material-icons" style="font-size:36px">person</i></td>
+								        <td class="text-capitalize">{{ oneUser.name.title}} <span class="text-uppercase"> <b>{{ oneUser.name.first}} {{oneUser.name.last }}</b></span></td>								       
+							      </tr>
+							       <tr>
+								        <td><i class="material-icons" style="font-size:36px">mail_outline</i></td>
+								        <td>{{ oneUser.email}}</td>			
+								  </tr>
+								  <tr>
+								        <td><i class="material-icons" style="font-size:36px">cake</i></td>
+								        <td class="text-capitalize">{{ oneUser.dob }}</td>			
+								  </tr>
+							      <tr>
+								      	<td><i class="material-icons" style="font-size:36px">local_phone</i></td>
+								        <td>{{ oneUser.phone}}, {{ oneUser.cell}}</td>
+							      </tr>  
+							      <tr>
+								      	<td><i class="material-icons" style="font-size:36px">person_pin_circle</i></td>
+								        <td class="text-capitalize">{{ oneUser.location.street}}, {{ oneUser.location.city}}</td>
+							      </tr>
+							      <tr>
+								      	<td></td>
+								        <td class="text-capitalize"> {{ oneUser.location.state}}, {{ oneUser.location.postcode}}</td>
+						      	  </tr>
+						    </tbody>
+						</table>
+			        </div> <!-- wrapper -->
+				  </div> <!-- col -->  
+				</div> <!-- data-ng-click="toggle(); -->
+				<button class="btn btn-primary closeButton" data-ng-click="toggle();"><span class="glyphicon glyphicon-remove"></span></button> <!--toggle detailedView-->
+			</div> <!-- row -->
+		</div> <!-- detailedView -->
+	</div> <!-- data-ng-app="myAdressBook" data-ng-controller="dataCtrl" class="containerForBothViews" -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+	
+	</body>
+</html>
